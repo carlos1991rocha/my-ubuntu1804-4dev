@@ -79,15 +79,81 @@ Vagrant.configure("2") do |config|
 
     export DEBIAN_FRONTEND=noninteractive
     sudo apt-get update
-    sudo apt-get -y dist-upgrade
+    sudo apt-get dist-upgrade -qq
 
     sudo snap refresh
 
     # Set keyboard layout to Portuguese (Brazil)
-    echo "setxkbmap br" >> ~/.bashrc
+    gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'br')]"
 
     # Set timezone to America/Sao_Paulo
     sudo rm /etc/localtime && sudo ln -s /usr/share/zoneinfo/America/Sao_Paulo  /etc/localtime
-  SHELL
 
+    # Turn off blank screen
+    gsettings set org.gnome.desktop.session idle-delay 0
+
+    # Enable login shell
+    profile="$(gsettings get org.gnome.Terminal.ProfilesList default)"
+    profile="${profile:1:-1}" # remove leading and trailing single quotes
+    gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$profile/" login-shell true
+
+    #!/bin/bash
+
+  SCHEMA="org.gnome.shell"
+  KEY="favorite-apps"
+  TO_ADD_VALUE="google-chrome.desktop"
+
+  STATUS=$(gsettings get ${SCHEMA} ${KEY})
+
+  # Optional proof, whether value to add already exsists
+  if [[ $STATUS == *"'$TO_ADD_VALUE'"* ]]; then
+      echo "$TO_ADD_VALUE is already in the list!"
+  else
+      gsettings set ${SCHEMA} ${KEY} "['$TO_ADD_VALUE',${STATUS#*[}"
+      echo "Added $TO_ADD_VALUE to the list."
+  fi
+
+  SCHEMA="org.gnome.shell"
+  KEY="favorite-apps"
+  TO_ADD_VALUE="code_code.desktop"
+
+  STATUS=$(gsettings get ${SCHEMA} ${KEY})
+
+  # Optional proof, whether value to add already exsists
+  if [[ $STATUS == *"'$TO_ADD_VALUE'"* ]]; then
+      echo "$TO_ADD_VALUE is already in the list!"
+  else
+      gsettings set ${SCHEMA} ${KEY} "['$TO_ADD_VALUE',${STATUS#*[}"
+      echo "Added $TO_ADD_VALUE to the list."
+  fi
+
+  SCHEMA="org.gnome.shell"
+  KEY="favorite-apps"
+  TO_ADD_VALUE="postman_postman.desktop"
+
+  STATUS=$(gsettings get ${SCHEMA} ${KEY})
+
+  # Optional proof, whether value to add already exsists
+  if [[ $STATUS == *"'$TO_ADD_VALUE'"* ]]; then
+      echo "$TO_ADD_VALUE is already in the list!"
+  else
+      gsettings set ${SCHEMA} ${KEY} "['$TO_ADD_VALUE',${STATUS#*[}"
+      echo "Added $TO_ADD_VALUE to the list."
+  fi
+
+  SCHEMA="org.gnome.shell"
+  KEY="favorite-apps"
+  TO_ADD_VALUE="gnome-terminal.desktop"
+
+  STATUS=$(gsettings get ${SCHEMA} ${KEY})
+
+  # Optional proof, whether value to add already exsists
+  if [[ $STATUS == *"'$TO_ADD_VALUE'"* ]]; then
+      echo "$TO_ADD_VALUE is already in the list!"
+  else
+      gsettings set ${SCHEMA} ${KEY} "['$TO_ADD_VALUE',${STATUS#*[}"
+      echo "Added $TO_ADD_VALUE to the list."
+  fi
+
+  SHELL
 end
