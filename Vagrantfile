@@ -53,14 +53,14 @@ Vagrant.configure("2") do |config|
 
     # Display the VirtualBox GUI when booting the machine
     vb.gui = true
-
+            
     # Set the display name of the VM in VirtualBox
     vb.name = "my-bionic-4dev"
 
     # Customize the amount of memory on the VM:
     vb.memory = "8192"
     # Customize the amount of CPU on the VM:
-    vb.cpus = "2"
+    vb.cpus = "4"
 
     # Make the DNS calls be resolved on host
     vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
