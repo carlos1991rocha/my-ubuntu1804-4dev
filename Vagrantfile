@@ -56,10 +56,6 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  # Check if we run in a Inatel computer
-  require 'socket'
-  inatel = Socket.gethostbyname(Socket.gethostname).first.end_with?("inatel.br")
-
   # Run a shell script in first run
   config.vm.provision "shell", privileged: false, inline: <<-SHELL
     set -euxo pipefail
@@ -85,13 +81,8 @@ Vagrant.configure("2") do |config|
     # Disable welcome screen
 
     # Set git name
-    if [ '#{inatel}' = true ]; then
-      git config --global user.name "Felipe de Cássio Rocha Santos"
-      git config --global user.email felipesantos@inatel.br
-    else
-      git config --global user.name "Felipe Santos"
-      git config --global user.email felipecassiors@gmail.com
-    fi
+    git config --global user.name "Carlos Alberto Rocha"
+    git config --global user.email carlos1991rocha@gmail.com
 
   SHELL
 
